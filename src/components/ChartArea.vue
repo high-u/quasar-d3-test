@@ -11,19 +11,25 @@ import { mapGetters } from 'vuex'
 export default {
   computed: {
     ...mapGetters({
-      getChartData: 'getChartData'
+      chartData: 'getChartData'
     })
   },
   data () {
     return {}
   },
   mounted () {
+    console.log('mounted ------------->')
     this.renderAP()
   },
+  watch: {
+    chartData: 'renderAP'
+  },
   methods: {
-    renderAP (e) {
+    renderAP () {
       /* data by getter */
-      let dataset = this.getChartData
+      console.log('------>')
+      console.log(this.chartData)
+      var dataset = this.chartData
 
       var margin = { top: 20, right: 40, bottom: 100, left: 100 }
       var width = 960 - margin.left - margin.right
@@ -32,6 +38,11 @@ export default {
       var svg = d3.select('svg#chart')
         .attr('width', width + margin.left + margin.right) // set its dimentions
         .attr('height', height + margin.top + margin.bottom)
+
+      svg.selectAll('g')
+        .remove()
+      svg.selectAll('path')
+        .remove()
 
       var timeparser = d3.timeParse('%Y-%m-%d')
       dataset = dataset.map(function (d) {
@@ -48,7 +59,7 @@ export default {
 
       /* x is the d3.scaleTime() */
       var xAxis = d3.axisBottom(xScale)
-        .tickFormat(d3.timeFormat('%m/%e'))
+        .tickFormat(d3.timeFormat('%m/%d'))
       /* .ticks(4) // specify the number of ticks */
       var yAxis = d3.axisLeft(yScale)
       /* .tickFormat(d3.format('$,d')) */
