@@ -1,31 +1,6 @@
 <template>
   <div>
-    <svg width="350" height="160">
-      <!-- 60px x 10px margin -->
-      <g class="layer" transform="translate(60,10)">
-        <!-- cx = 270px * ($X / 3)
-                    ^      ^   ^
-        width of graph  x-value max(x)
-
-              cy = 120px - (($Y / 80) * 120px)
-                    ^       ^     ^       ^
-          top of graph   y-value  max(y)  scale -->
-        <circle r="5" cx="0"   cy="105" />
-        <circle r="5" cx="90"  cy="90"  />
-        <circle r="5" cx="180" cy="60"  />
-        <circle r="5" cx="270" cy="0"   />
-
-        <g class="y axis">
-          <line x1="0" y1="0" x2="0" y2="120" />
-          <text x="-40" y="105" dy="5">$10</text>
-          <text x="-40" y="0"   dy="5">$80</text>
-        </g>
-        <g class="x axis" transform="translate(0, 120)">
-          <line x1="0" y1="0" x2="270" y2="0" />
-          <text x="-30"   y="20">January 2014</text>
-          <text x="240" y="20">April</text>
-        </g>
-      </g>
+    <svg id="chart">
     </svg>
   </div>
 </template>
@@ -36,8 +11,7 @@ export default {
   data () {
     return {}
   },
-  beforeUpdate () {
-    /* D3 描画は直ぐに開始する必要がある */
+  mounted () {
     this.renderAP()
   },
   methods: {
@@ -45,11 +19,60 @@ export default {
       /* data by getter */
       /* let apData = this.getMapData */
 
-      /* attach svg TAG */
-      let svg = d3.select(this.$el)
-        .selectAll('svg')
-        .append('div')
-	      .text('Hello, world!')
+      var dataset = [
+        { label: '2014-01-01', count: 10 },
+        { label: '2014-02-01', count: 20 },
+        { label: '2014-03-01', count: 40 },
+        { label: '2014-04-01', count: 80 }
+      ]
+
+      var margin = { top: 20, right: 40, bottom: 100, left: 100 }
+      var width = 960 - margin.left - margin.right
+      var height = 400 - margin.top - margin.bottom
+
+      var svg = d3.select('svg#chart')
+        .attr('width', width + margin.left + margin.right) // set its dimentions
+        .attr('height', height + margin.top + margin.bottom)
+
+      var xScale = d3.scalePoint()
+        .domain(dataset.map(function (v) { return v.label }))
+        .range([0, width])
+
+      var yScale = d3.scaleLinear()
+        .domain([0, d3.max(dataset, function (d) { return d.count + 5 })])
+        .range([height, 0]) // Seems backwards because SVG is y-down
+
+      /* x is the d3.scaleTime() */
+      var xAxis = d3.axisBottom(xScale)
+      /* .ticks(4) // specify the number of ticks */
+      var yAxis = d3.axisLeft(yScale)
+      /* .tickFormat(d3.format('$,d')) */
+      /* .ticks(5) */
+
+      var line = d3.line()
+        .x(function (d) { return xScale(d.label) })
+        .y(function (d) { return yScale(d.count) })
+        .curve(d3.curveLinear)
+
+      /* X axis */
+      svg.append('g') // create a <g> element
+        .attr('transform', 'translate(' + margin.right + ',' + (height + margin.top) + ')')
+        .call(xAxis) // let the axis do its thing
+
+      /* Y axis */
+      svg.append('g')
+        .attr('transform', 'translate(' + margin.right + ',' + margin.top + ')')
+        .call(yAxis)
+
+      /* Path */
+      svg.append('path')
+        .attr('transform', 'translate(' + margin.right + ', ' + margin.top + ')')
+        .datum(dataset)
+        .attr('class', 'line')
+        .attr('d', line(dataset))
+        .attr('fill', 'none')
+        .attr('stroke', 'steelblue')
+        .attr('stroke-width', 2)
     }
   }
 }
