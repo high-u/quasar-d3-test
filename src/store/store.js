@@ -6,6 +6,12 @@ const state = {
     { id: 0, title: 'データ1', body: 'データ1の内容です。123' },
     { id: 1, title: 'データ2', body: 'データ2の内容です。456' },
     { id: 2, title: 'データ3', body: 'データ3の内容です。789' }
+  ],
+  chartData: [
+    { label: '2014-01-01', count: 10 },
+    { label: '2014-02-01', count: 20 },
+    { label: '2014-03-01', count: 40 },
+    { label: '2014-04-01', count: 80 }
   ]
 }
 
@@ -17,6 +23,9 @@ const getters = {
       let regexp = new RegExp(pattern)
       return regexp.test(item.title) || regexp.test(item.body)
     })
+  },
+  getChartData () {
+    return state.chartData
   }
 }
 
