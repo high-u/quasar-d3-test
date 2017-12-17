@@ -39,7 +39,7 @@ export default {
         .range([0, width])
 
       var yScale = d3.scaleLinear()
-        .domain([0, d3.max(dataset, function (d) { return d.count + 5 })])
+        .domain([0, d3.max(dataset, function (d) { return d.count })])
         .range([height, 0]) // Seems backwards because SVG is y-down
 
       /* x is the d3.scaleTime() */
