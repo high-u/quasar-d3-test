@@ -6,6 +6,7 @@
     <search-box></search-box>
     <result-list></result-list>
     <data-area></data-area>
+    <chart-area></chart-area>
   </div>
 </template>
 
@@ -13,12 +14,14 @@
 import SearchBox from './SearchBox'
 import ResultList from './ResultList'
 import DataArea from './DataArea'
+import ChartArea from './ChartArea'
 
 export default {
   components: {
     SearchBox,
     ResultList,
-    DataArea
+    DataArea,
+    ChartArea
   },
   data () {
     return {}
