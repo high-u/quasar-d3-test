@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import { M } from '../store/types'
 import { QSearch } from 'quasar'
 export default {
   components: {
@@ -16,12 +17,13 @@ export default {
   },
   data () {
     return {
-      text: '文字です'
+      text: ''
     }
   },
   methods: {
     search () {
       console.log(this.text)
+      this.$store.dispatch(M.CHANGE_SEARCH_STR, this.text)
     }
   }
 }
