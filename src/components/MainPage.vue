@@ -2,23 +2,23 @@
   <!-- if you want automatic padding use "layout-padding" class -->
   <div class="layout-padding">
     <!-- your content -->
-    <q-btn v-on:click="goMain">検索</q-btn>
+    Main Page
+    <search-box></search-box>
+    <result-list></result-list>
   </div>
 </template>
 
 <script>
-import { QBtn } from 'quasar'
+import SearchBox from './SearchBox'
+import ResultList from './ResultList'
+
 export default {
   components: {
-    QBtn
+    SearchBox,
+    ResultList
   },
   data () {
     return {}
-  },
-  methods: {
-    goMain () {
-      this.$router.push({path: '/main'})
-    }
   }
 }
 </script>
