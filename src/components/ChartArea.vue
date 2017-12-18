@@ -22,7 +22,11 @@ export default {
     this.renderAP()
   },
   watch: {
-    chartData: 'renderAP'
+    chartData: function () {
+      console.log('hoge')
+      this.renderAP()
+    }
+    /* next tick */
   },
   methods: {
     renderAP () {

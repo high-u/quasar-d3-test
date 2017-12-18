@@ -1,12 +1,12 @@
 <template>
   <div>
     <q-input
-      v-model="area"
+      :value="area"
       type="textarea"
       float-label="Textarea"
       :max-height="100"
       :min-rows="7"
-      @change="rerender"
+      @change="updateChartdata"
     />
   </div>
 </template>
@@ -14,22 +14,25 @@
 <script>
 import { M } from '../store/types'
 import { QInput } from 'quasar'
+/* import { mapGetters } from 'vuex' */
 export default {
   components: {
     QInput
   },
-  data () {
-    return {
-      area: JSON.stringify([
-        { label: '2014-01-01', count: 10 },
-        { label: '2014-02-01', count: 20 },
-        { label: '2014-03-01', count: 40 },
-        { label: '2014-04-01', count: 80 }
-      ])
+  computed: {
+    /* ...mapGetters({
+      area: this.$store.getters.mapGetters
+    }), */
+    area: {
+      get () { return JSON.stringify(this.$store.getters.getChartData) } // ,
+      /* set (v) { this.$store.dispatch(M.UPDATE_TIME_CURRENT) } */
     }
   },
+  data () {
+    return {}
+  },
   methods: {
-    rerender () {
+    updateChartdata () {
       console.log(this.area)
       this.$store.dispatch(M.CHANGE_CHART_DATA, this.area)
     }

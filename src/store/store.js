@@ -7,6 +7,7 @@ const state = {
     { id: 1, title: 'データ2', body: 'データ2の内容です。456' },
     { id: 2, title: 'データ3', body: 'データ3の内容です。789' }
   ],
+  /* chart default value */
   chartData: JSON.stringify([
     { label: '2014-01-01', count: 10 },
     { label: '2014-02-01', count: 20 },
