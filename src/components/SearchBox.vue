@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { M } from '../store/types'
+import { CHANGE_SEARCH_STR } from '../store/types'
 import { QSearch } from 'quasar'
 export default {
   components: {
@@ -23,7 +23,7 @@ export default {
   methods: {
     search () {
       console.log(this.text)
-      this.$store.dispatch(M.CHANGE_SEARCH_STR, this.text)
+      this.$store.dispatch(CHANGE_SEARCH_STR, this.text)
     }
   }
 }

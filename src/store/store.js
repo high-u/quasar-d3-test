@@ -1,5 +1,14 @@
-import { M } from './types'
+/* Mutation Type を読み込む */
+// import { M } from './types'
 
+import { CHANGE_SEARCH_STR, CHANGE_CHART_DATA } from './types'
+
+/*
+ * State
+ * 状態
+ * アプリケーション全体の情報を管理する場所
+ * 見た目の構築やサーバとの通信などに利用します。
+ */
 const state = {
   searchStr: '',
   searchResults: [
@@ -16,6 +25,43 @@ const state = {
   ])
 }
 
+/*
+ * Actions
+ * ユーザの操作/APIとのやりとり
+ * アプリケーションの状態を変更するようなユーザからの入力や外部APIの呼び出しは、Actionsと呼ばれます。
+ */
+const actions = {
+  [CHANGE_SEARCH_STR] ({ commit }, str) {
+    console.log('store.actions:[CHANGE_SEARCH_STR] str= ', str)
+    commit(CHANGE_SEARCH_STR, str)
+  },
+  [CHANGE_CHART_DATA] ({ commit }, str) {
+    console.log('store.actions2:[CHANGE_CHART_DATA] str= ', str)
+    // 「変更をアプリケーションの状態にcommitする」、つまり、先ほど書いたstateを書き換えることを示しています。
+    // → つまり Mutation のこと
+    commit(CHANGE_CHART_DATA, str)
+  }
+}
+
+/*
+ * Mutations
+ * 状態への変更処理
+ */
+const mutations = {
+  [CHANGE_SEARCH_STR] (state, str) {
+    state.searchStr = str
+    console.log('mutation commit: [CHANGE_SEARCH_STR] state.searchStr= ', str)
+  },
+  [CHANGE_CHART_DATA] (state, str) {
+    // State を変更
+    state.chartData = str
+    console.log('mutation2 commit: [CHANGE_CHART_DATA] state.searchStr= ', str)
+  }
+}
+
+/*
+ * Getters
+ */
 const getters = {
   getSearchResults () {
     // filter
@@ -25,32 +71,11 @@ const getters = {
       return regexp.test(item.title) || regexp.test(item.body)
     })
   },
-  getChartData () {
+  getChartData: state => {
     console.log('store.js getChartData ==========>')
     console.log(state.chartData)
+    /* return JSON.parse(state.chartData) */
     return JSON.parse(state.chartData)
-  }
-}
-
-const actions = {
-  [M.CHANGE_SEARCH_STR] ({ commit }, str) {
-    console.log('store.actions:[M.CHANGE_SEARCH_STR] str= ', str)
-    commit(M.CHANGE_SEARCH_STR, str)
-  },
-  [M.CHANGE_CHART_DATA] ({ commit }, str) {
-    console.log('store.actions2:[M.CHANGE_CHART_DATA] str= ', str)
-    commit(M.CHANGE_CHART_DATA, str)
-  }
-}
-
-const mutations = {
-  [M.CHANGE_SEARCH_STR] (state, str) {
-    state.searchStr = str
-    console.log('mutation commit: [M.CHANGE_SEARCH_STR] state.searchStr= ', str)
-  },
-  [M.CHANGE_CHART_DATA] (state, str) {
-    state.chartData = str
-    console.log('mutation2 commit: [M.CHANGE_CHART_DATA] state.searchStr= ', str)
   }
 }
 
