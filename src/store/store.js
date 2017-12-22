@@ -2,6 +2,9 @@
 // import { M } from './types'
 
 import { CHANGE_SEARCH_STR, CHANGE_CHART_DATA } from './types'
+import Ajv from 'ajv'
+
+// var Ajv = require('ajv')
 
 /*
  * State
@@ -35,11 +38,36 @@ const actions = {
     console.log('store.actions:[CHANGE_SEARCH_STR] str= ', str)
     commit(CHANGE_SEARCH_STR, str)
   },
-  [CHANGE_CHART_DATA] ({ commit }, str) {
+  [CHANGE_CHART_DATA] ({ commit }, str) { // DataArea.vue の @change より
     console.log('store.actions2:[CHANGE_CHART_DATA] str= ', str)
-    // 「変更をアプリケーションの状態にcommitする」、つまり、先ほど書いたstateを書き換えることを示しています。
-    // → つまり Mutation のこと
-    commit(CHANGE_CHART_DATA, str)
+    var schema = {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          label: {
+            description: 'label',
+            type: 'string'
+          },
+          count: {
+            description: 'count',
+            type: 'integer'
+          }
+        }
+      }
+    }
+    var ajv = new Ajv()
+    var validate = ajv.compile(schema)
+    var valid = validate(JSON.parse(str))
+    if (!valid) {
+      console.log('hogehogehoge')
+      console.log(validate.errors)
+    }
+    else {
+      // 「変更をアプリケーションの状態にcommitする」、つまり、先ほど書いたstateを書き換えることを示しています。
+      // → つまり Mutation のこと
+      commit(CHANGE_CHART_DATA, str)
+    }
   }
 }
 
