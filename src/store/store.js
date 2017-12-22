@@ -119,8 +119,10 @@ const getters = {
         ret = state.chartData
       }
     }
+    console.log(ret)
 
-    return JSON.parse(ret) // ここでエラーか。
+    // return JSON.parse(ret) // ここでエラーか。
+    return state.chartData
   }
 }
 

@@ -8,6 +8,10 @@
 <script>
 import * as d3 from 'd3'
 import { mapGetters } from 'vuex'
+import Ajv from 'ajv'
+import isJson from '../utils'
+import { SCHEMA_CHART } from '../schema'
+
 export default {
   computed: {
     ...mapGetters({
@@ -33,68 +37,84 @@ export default {
     renderAP () {
       /* data by getter */
       console.log('------>')
-      console.log(Object.keys(this.chartData).length)
-      if (Object.keys(this.chartData).length !== 0) {
-        var dataset = this.chartData
 
-        var margin = { top: 20, right: 40, bottom: 100, left: 100 }
-        var width = 960 - margin.left - margin.right
-        var height = 400 - margin.top - margin.bottom
+      if (!isJson(this.chartData)) {
+        console.log('Invalid JSON. DataArea set.')
+      }
+      else {
+        var schema = SCHEMA_CHART
+        var ajv = new Ajv()
+        var validate = ajv.compile(schema)
+        var valid = validate(JSON.parse(this.chartData))
+        if (!valid) {
+          console.log('invalid')
+          console.log(validate.errors)
+        }
+        else {
+          console.log(Object.keys(this.chartData).length)
+          if (Object.keys(this.chartData).length !== 0) {
+            var dataset = JSON.parse(this.chartData)
 
-        var svg = d3.select('svg#chart')
-          .attr('width', width + margin.left + margin.right) // set its dimentions
-          .attr('height', height + margin.top + margin.bottom)
+            var margin = { top: 20, right: 40, bottom: 100, left: 100 }
+            var width = 960 - margin.left - margin.right
+            var height = 400 - margin.top - margin.bottom
 
-        svg.selectAll('g')
-          .remove()
-        svg.selectAll('path')
-          .remove()
+            var svg = d3.select('svg#chart')
+              .attr('width', width + margin.left + margin.right) // set its dimentions
+              .attr('height', height + margin.top + margin.bottom)
 
-        var timeparser = d3.timeParse('%Y-%m-%d')
-        dataset = dataset.map(function (d) {
-          return { label: timeparser(d.label), count: d.count }
-        })
+            svg.selectAll('g')
+              .remove()
+            svg.selectAll('path')
+              .remove()
 
-        var xScale = d3.scaleTime()
-          .domain([d3.min(dataset.map(function (d) { return d.label })), d3.max(dataset.map(function (d) { return d.label }))])
-          .range([0, width])
+            var timeparser = d3.timeParse('%Y-%m-%d')
+            dataset = dataset.map(function (d) {
+              return { label: timeparser(d.label), count: d.count }
+            })
 
-        var yScale = d3.scaleLinear()
-          .domain([0, d3.max(dataset, function (d) { return d.count })])
-          .range([height, 0]) // Seems backwards because SVG is y-down
+            var xScale = d3.scaleTime()
+              .domain([d3.min(dataset.map(function (d) { return d.label })), d3.max(dataset.map(function (d) { return d.label }))])
+              .range([0, width])
 
-        /* x is the d3.scaleTime() */
-        var xAxis = d3.axisBottom(xScale)
-          .tickFormat(d3.timeFormat('%m/%d'))
-        /* .ticks(4) // specify the number of ticks */
-        var yAxis = d3.axisLeft(yScale)
-        /* .tickFormat(d3.format('$,d')) */
-        /* .ticks(5) */
+            var yScale = d3.scaleLinear()
+              .domain([0, d3.max(dataset, function (d) { return d.count })])
+              .range([height, 0]) // Seems backwards because SVG is y-down
 
-        var line = d3.line()
-          .x(function (d) { return xScale(d.label) })
-          .y(function (d) { return yScale(d.count) })
-          .curve(d3.curveLinear)
+            /* x is the d3.scaleTime() */
+            var xAxis = d3.axisBottom(xScale)
+              .tickFormat(d3.timeFormat('%m/%d'))
+            /* .ticks(4) // specify the number of ticks */
+            var yAxis = d3.axisLeft(yScale)
+            /* .tickFormat(d3.format('$,d')) */
+            /* .ticks(5) */
 
-        /* X axis */
-        svg.append('g') // create a <g> element
-          .attr('transform', 'translate(' + margin.right + ',' + (height + margin.top) + ')')
-          .call(xAxis) // let the axis do its thing
+            var line = d3.line()
+              .x(function (d) { return xScale(d.label) })
+              .y(function (d) { return yScale(d.count) })
+              .curve(d3.curveLinear)
 
-        /* Y axis */
-        svg.append('g')
-          .attr('transform', 'translate(' + margin.right + ',' + margin.top + ')')
-          .call(yAxis)
+            /* X axis */
+            svg.append('g') // create a <g> element
+              .attr('transform', 'translate(' + margin.right + ',' + (height + margin.top) + ')')
+              .call(xAxis) // let the axis do its thing
 
-        /* Path */
-        svg.append('path')
-          .attr('transform', 'translate(' + margin.right + ', ' + margin.top + ')')
-          .datum(dataset)
-          .attr('class', 'line')
-          .attr('d', line(dataset))
-          .attr('fill', 'none')
-          .attr('stroke', 'steelblue')
-          .attr('stroke-width', 2)
+            /* Y axis */
+            svg.append('g')
+              .attr('transform', 'translate(' + margin.right + ',' + margin.top + ')')
+              .call(yAxis)
+
+            /* Path */
+            svg.append('path')
+              .attr('transform', 'translate(' + margin.right + ', ' + margin.top + ')')
+              .datum(dataset)
+              .attr('class', 'line')
+              .attr('d', line(dataset))
+              .attr('fill', 'none')
+              .attr('stroke', 'steelblue')
+              .attr('stroke-width', 2)
+          }
+        }
       }
     }
   }

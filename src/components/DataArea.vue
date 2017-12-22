@@ -15,10 +15,10 @@
 import { CHANGE_CHART_DATA } from '../store/types'
 import { QInput } from 'quasar'
 /* import { mapActions } from 'vuex' */
-import Ajv from 'ajv'
+// import Ajv from 'ajv'
 /* import { mapGetters } from 'vuex' */
-import isJson from '../utils'
-import { SCHEMA_CHART } from '../schema'
+// import isJson from '../utils'
+// import { SCHEMA_CHART } from '../schema'
 export default {
   components: {
     QInput
@@ -33,10 +33,11 @@ export default {
     area: {
       get () {
         // テキストエリアに入れる？
-        return JSON.stringify(this.$store.getters.getChartData)
+        // return JSON.stringify(this.$store.getters.getChartData)
+        return this.$store.getters.getChartData
       },
       set (v) {
-        if (!isJson(v)) {
+        /* if (!isJson(v)) {
           console.log('Invalid JSON. DataArea set.')
         }
         else {
@@ -51,7 +52,8 @@ export default {
           else {
             this.$store.commit(CHANGE_CHART_DATA, v)
           }
-        }
+        } */
+        this.$store.commit(CHANGE_CHART_DATA, v)
       }
     }
   },
