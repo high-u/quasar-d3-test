@@ -1,12 +1,8 @@
 /* Mutation Type を読み込む */
-// import { M } from './types'
-
 import { CHANGE_SEARCH_STR, CHANGE_CHART_DATA } from './types'
 import Ajv from 'ajv'
 import isJson from '../utils'
 import { SCHEMA_CHART } from '../schema'
-
-// var Ajv = require('ajv')
 
 /*
  * State
@@ -100,7 +96,6 @@ const getters = {
     var ret = ''
     console.log('store.js getChartData ==========>')
     console.log(state.chartData)
-    /* return JSON.parse(state.chartData) */
     var v = state.chartData
     if (!isJson(v)) {
       console.log('Invalid JSON. DataArea set.')
@@ -120,8 +115,6 @@ const getters = {
       }
     }
     console.log(ret)
-
-    // return JSON.parse(ret) // ここでエラーか。
     return state.chartData
   }
 }
