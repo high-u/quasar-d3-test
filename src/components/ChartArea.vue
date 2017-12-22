@@ -33,67 +33,69 @@ export default {
     renderAP () {
       /* data by getter */
       console.log('------>')
-      console.log(this.chartData)
-      var dataset = this.chartData
+      console.log(Object.keys(this.chartData).length)
+      if (Object.keys(this.chartData).length !== 0) {
+        var dataset = this.chartData
 
-      var margin = { top: 20, right: 40, bottom: 100, left: 100 }
-      var width = 960 - margin.left - margin.right
-      var height = 400 - margin.top - margin.bottom
+        var margin = { top: 20, right: 40, bottom: 100, left: 100 }
+        var width = 960 - margin.left - margin.right
+        var height = 400 - margin.top - margin.bottom
 
-      var svg = d3.select('svg#chart')
-        .attr('width', width + margin.left + margin.right) // set its dimentions
-        .attr('height', height + margin.top + margin.bottom)
+        var svg = d3.select('svg#chart')
+          .attr('width', width + margin.left + margin.right) // set its dimentions
+          .attr('height', height + margin.top + margin.bottom)
 
-      svg.selectAll('g')
-        .remove()
-      svg.selectAll('path')
-        .remove()
+        svg.selectAll('g')
+          .remove()
+        svg.selectAll('path')
+          .remove()
 
-      var timeparser = d3.timeParse('%Y-%m-%d')
-      dataset = dataset.map(function (d) {
-        return { label: timeparser(d.label), count: d.count }
-      })
+        var timeparser = d3.timeParse('%Y-%m-%d')
+        dataset = dataset.map(function (d) {
+          return { label: timeparser(d.label), count: d.count }
+        })
 
-      var xScale = d3.scaleTime()
-        .domain([d3.min(dataset.map(function (d) { return d.label })), d3.max(dataset.map(function (d) { return d.label }))])
-        .range([0, width])
+        var xScale = d3.scaleTime()
+          .domain([d3.min(dataset.map(function (d) { return d.label })), d3.max(dataset.map(function (d) { return d.label }))])
+          .range([0, width])
 
-      var yScale = d3.scaleLinear()
-        .domain([0, d3.max(dataset, function (d) { return d.count })])
-        .range([height, 0]) // Seems backwards because SVG is y-down
+        var yScale = d3.scaleLinear()
+          .domain([0, d3.max(dataset, function (d) { return d.count })])
+          .range([height, 0]) // Seems backwards because SVG is y-down
 
-      /* x is the d3.scaleTime() */
-      var xAxis = d3.axisBottom(xScale)
-        .tickFormat(d3.timeFormat('%m/%d'))
-      /* .ticks(4) // specify the number of ticks */
-      var yAxis = d3.axisLeft(yScale)
-      /* .tickFormat(d3.format('$,d')) */
-      /* .ticks(5) */
+        /* x is the d3.scaleTime() */
+        var xAxis = d3.axisBottom(xScale)
+          .tickFormat(d3.timeFormat('%m/%d'))
+        /* .ticks(4) // specify the number of ticks */
+        var yAxis = d3.axisLeft(yScale)
+        /* .tickFormat(d3.format('$,d')) */
+        /* .ticks(5) */
 
-      var line = d3.line()
-        .x(function (d) { return xScale(d.label) })
-        .y(function (d) { return yScale(d.count) })
-        .curve(d3.curveLinear)
+        var line = d3.line()
+          .x(function (d) { return xScale(d.label) })
+          .y(function (d) { return yScale(d.count) })
+          .curve(d3.curveLinear)
 
-      /* X axis */
-      svg.append('g') // create a <g> element
-        .attr('transform', 'translate(' + margin.right + ',' + (height + margin.top) + ')')
-        .call(xAxis) // let the axis do its thing
+        /* X axis */
+        svg.append('g') // create a <g> element
+          .attr('transform', 'translate(' + margin.right + ',' + (height + margin.top) + ')')
+          .call(xAxis) // let the axis do its thing
 
-      /* Y axis */
-      svg.append('g')
-        .attr('transform', 'translate(' + margin.right + ',' + margin.top + ')')
-        .call(yAxis)
+        /* Y axis */
+        svg.append('g')
+          .attr('transform', 'translate(' + margin.right + ',' + margin.top + ')')
+          .call(yAxis)
 
-      /* Path */
-      svg.append('path')
-        .attr('transform', 'translate(' + margin.right + ', ' + margin.top + ')')
-        .datum(dataset)
-        .attr('class', 'line')
-        .attr('d', line(dataset))
-        .attr('fill', 'none')
-        .attr('stroke', 'steelblue')
-        .attr('stroke-width', 2)
+        /* Path */
+        svg.append('path')
+          .attr('transform', 'translate(' + margin.right + ', ' + margin.top + ')')
+          .datum(dataset)
+          .attr('class', 'line')
+          .attr('d', line(dataset))
+          .attr('fill', 'none')
+          .attr('stroke', 'steelblue')
+          .attr('stroke-width', 2)
+      }
     }
   }
 }

@@ -17,7 +17,8 @@ import { QInput } from 'quasar'
 /* import { mapActions } from 'vuex' */
 import Ajv from 'ajv'
 /* import { mapGetters } from 'vuex' */
-import IsJson from '../isJson'
+import isJson from '../utils'
+import { SCHEMA_CHART } from '../schema'
 export default {
   components: {
     QInput
@@ -35,42 +36,19 @@ export default {
         return JSON.stringify(this.$store.getters.getChartData)
       },
       set (v) {
-        // var ij = new IsJson()
-        console.log(IsJson(v))
-        if (!IsJson(v)) {
+        if (!isJson(v)) {
           console.log('Invalid JSON. DataArea set.')
         }
         else {
-          var schema = {
-            type: 'array',
-            items: {
-              type: 'object',
-              properties: {
-                label: {
-                  description: 'label',
-                  type: 'string'
-                },
-                count: {
-                  description: 'count',
-                  type: 'integer'
-                }
-              }
-            }
-          }
-          console.log(schema)
+          var schema = SCHEMA_CHART
           var ajv = new Ajv()
           var validate = ajv.compile(schema)
-          console.log(validate)
-          // var str = this.$store.getters.getChartData
-          console.log('^^^^^^^^^^^^')
-          console.log(v)
           var valid = validate(JSON.parse(v))
           if (!valid) {
             console.log('invalid')
             console.log(validate.errors)
           }
           else {
-            console.log('valid')
             this.$store.commit(CHANGE_CHART_DATA, v)
           }
         }

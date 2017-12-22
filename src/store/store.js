@@ -3,6 +3,8 @@
 
 import { CHANGE_SEARCH_STR, CHANGE_CHART_DATA } from './types'
 import Ajv from 'ajv'
+import isJson from '../utils'
+import { SCHEMA_CHART } from '../schema'
 
 // var Ajv = require('ajv')
 
@@ -20,12 +22,7 @@ const state = {
     { id: 2, title: 'データ3', body: 'データ3の内容です。789' }
   ],
   /* chart default value */
-  chartData: JSON.stringify([
-    { label: '2014-01-01', count: 10 },
-    { label: '2014-02-01', count: 20 },
-    { label: '2014-03-01', count: 40 },
-    { label: '2014-04-01', count: 80 }
-  ])
+  chartData: '{}'
 }
 
 /*
@@ -100,10 +97,30 @@ const getters = {
     })
   },
   getChartData: state => {
+    var ret = ''
     console.log('store.js getChartData ==========>')
     console.log(state.chartData)
     /* return JSON.parse(state.chartData) */
-    return JSON.parse(state.chartData) // ここでエラーか。
+    var v = state.chartData
+    if (!isJson(v)) {
+      console.log('Invalid JSON. DataArea set.')
+    }
+    else {
+      var schema = SCHEMA_CHART
+      var ajv = new Ajv()
+      var validate = ajv.compile(schema)
+      var valid = validate(JSON.parse(v))
+      if (!valid) {
+        console.log('invalid')
+        console.log(validate.errors)
+        ret = '{}'
+      }
+      else {
+        ret = state.chartData
+      }
+    }
+
+    return JSON.parse(ret) // ここでエラーか。
   }
 }
 

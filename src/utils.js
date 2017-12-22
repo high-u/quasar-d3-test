@@ -1,4 +1,4 @@
-export default function (source) {
+export default function isJson (source) {
   let invalid = false
   try {
     JSON.parse(source)
