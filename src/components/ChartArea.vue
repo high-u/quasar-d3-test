@@ -25,7 +25,8 @@ export default {
     chartData: function () {
       console.log('hoge')
       this.renderAP()
-    }
+    },
+    deep: true
     /* next tick */
   },
   methods: {

@@ -103,7 +103,7 @@ const getters = {
     console.log('store.js getChartData ==========>')
     console.log(state.chartData)
     /* return JSON.parse(state.chartData) */
-    return JSON.parse(state.chartData)
+    return JSON.parse(state.chartData) // ここでエラーか。
   }
 }
 
