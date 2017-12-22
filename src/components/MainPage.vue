@@ -19,15 +19,11 @@
 </template>
 
 <script>
-import SearchBox from './SearchBox'
-import ResultList from './ResultList'
 import DataArea from './DataArea'
 import ChartArea from './ChartArea'
 
 export default {
   components: {
-    SearchBox,
-    ResultList,
     DataArea,
     ChartArea
   },

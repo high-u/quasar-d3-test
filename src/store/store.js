@@ -1,5 +1,5 @@
 /* Mutation Type を読み込む */
-import { CHANGE_SEARCH_STR, CHANGE_CHART_DATA } from './types'
+import { CHANGE_CHART_DATA } from './types'
 import Ajv from 'ajv'
 import isJson from '../utils'
 import { SCHEMA_CHART } from '../schema'
@@ -27,10 +27,6 @@ const state = {
  * アプリケーションの状態を変更するようなユーザからの入力や外部APIの呼び出しは、Actionsと呼ばれます。
  */
 const actions = {
-  [CHANGE_SEARCH_STR] ({ commit }, str) {
-    console.log('store.actions:[CHANGE_SEARCH_STR] str= ', str)
-    commit(CHANGE_SEARCH_STR, str)
-  },
   [CHANGE_CHART_DATA] ({ commit }, str) { // DataArea.vue の @change より
     console.log('store.actions2:[CHANGE_CHART_DATA] str= ', str)
     var schema = {
@@ -69,10 +65,6 @@ const actions = {
  * 状態への変更処理
  */
 const mutations = {
-  [CHANGE_SEARCH_STR] (state, str) {
-    state.searchStr = str
-    console.log('mutation commit: [CHANGE_SEARCH_STR] state.searchStr= ', str)
-  },
   [CHANGE_CHART_DATA] (state, str) {
     // State を変更
     state.chartData = str
