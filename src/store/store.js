@@ -18,7 +18,7 @@ const state = {
     { id: 2, title: 'データ3', body: 'データ3の内容です。789' }
   ],
   /* chart default value */
-  chartData: '{}'
+  chartData: '[]'
 }
 
 /*

@@ -3,9 +3,12 @@
     <q-input
       v-model="area"
       type="textarea"
-      float-label="Textarea"
+      float-label="Chart JSON"
       :max-height="100"
       :min-rows="7"
+      placeholder=""
+      color="grey-4"
+      class="bg-grey-2"
     />
     <!-- changeイベントが発行されると、 M.CHANGE_CHART_DATA() という Actions に、テキストエリアの中身を渡す -->
   </div>
@@ -29,9 +32,6 @@ export default {
         this.$store.commit(CHANGE_CHART_DATA, v)
       }
     }
-  },
-  data () {
-    return {}
   }
 }
 </script>

@@ -18,9 +18,6 @@ export default {
       chartData: 'getChartData'
     })
   },
-  data () {
-    return {}
-  },
   mounted () {
     console.log('mounted ------------->')
     this.renderAP()
@@ -42,6 +39,18 @@ export default {
         console.log('Invalid JSON. DataArea set.')
       }
       else {
+        var margin = { top: 30, right: 40, bottom: 30, left: 40 }
+        var width = 960 - margin.left - margin.right
+        var height = 400 - margin.top - margin.bottom
+        var svg = d3.select('svg#chart')
+          .attr('width', width + margin.left + margin.right) // set its dimentions
+          .attr('height', height + margin.top + margin.bottom)
+
+        svg.selectAll('g')
+          .remove()
+        svg.selectAll('path')
+          .remove()
+
         var schema = SCHEMA_CHART
         var ajv = new Ajv()
         var validate = ajv.compile(schema)
@@ -54,19 +63,6 @@ export default {
           console.log(Object.keys(this.chartData).length)
           if (Object.keys(this.chartData).length !== 0) {
             var dataset = JSON.parse(this.chartData)
-
-            var margin = { top: 20, right: 40, bottom: 100, left: 100 }
-            var width = 960 - margin.left - margin.right
-            var height = 400 - margin.top - margin.bottom
-
-            var svg = d3.select('svg#chart')
-              .attr('width', width + margin.left + margin.right) // set its dimentions
-              .attr('height', height + margin.top + margin.bottom)
-
-            svg.selectAll('g')
-              .remove()
-            svg.selectAll('path')
-              .remove()
 
             var timeparser = d3.timeParse('%Y-%m-%d')
             dataset = dataset.map(function (d) {
