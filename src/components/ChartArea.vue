@@ -1,7 +1,16 @@
 <template>
   <div>
-    <svg id="chart">
-    </svg>
+    <q-card inline style="width: 800px">
+      <q-card-title>
+        Card Title
+      </q-card-title>
+      <q-card-separator />
+      <q-card-main>
+        <svg id="chart">
+        </svg>
+      </q-card-main>
+    </q-card>
+
   </div>
 </template>
 
@@ -11,8 +20,18 @@ import { mapGetters } from 'vuex'
 import Ajv from 'ajv'
 import isJson from '../utils'
 import { SCHEMA_CHART } from '../schema'
+import {
+  QCard, QCardTitle, QCardSeparator, QCardMain, QCardActions
+} from 'quasar'
 
 export default {
+  components: {
+    QCard,
+    QCardTitle,
+    QCardSeparator,
+    QCardMain,
+    QCardActions
+  },
   computed: {
     ...mapGetters({
       chartData: 'getChartData'
@@ -40,7 +59,7 @@ export default {
       }
       else {
         var margin = { top: 30, right: 40, bottom: 30, left: 40 }
-        var width = 960 - margin.left - margin.right
+        var width = 760 - margin.left - margin.right
         var height = 400 - margin.top - margin.bottom
         var svg = d3.select('svg#chart')
           .attr('width', width + margin.left + margin.right) // set its dimentions
