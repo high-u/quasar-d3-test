@@ -2,7 +2,7 @@
   <div>
     <q-card inline style="width: 800px">
       <q-card-title>
-        Card Title
+        Chart
       </q-card-title>
       <q-card-separator />
       <q-card-main>

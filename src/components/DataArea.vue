@@ -2,7 +2,7 @@
   <div>
     <q-card inline style="width: 400px">
       <q-card-title>
-        Card Title
+        JSON
       </q-card-title>
       <q-card-separator />
       <q-card-main>

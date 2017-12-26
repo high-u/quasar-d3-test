@@ -3,7 +3,7 @@
   <div>
     <q-toolbar slot="header" color="primary">
       <q-toolbar-title>
-        Title
+        Quasar Framework Test with d3.js
       </q-toolbar-title>
     </q-toolbar>
     <!-- your content -->
