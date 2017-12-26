@@ -37,12 +37,12 @@ export default {
     })
   },
   mounted () {
-    console.log('mounted')
+    console.log('ChartArea.vue mounted')
     this.renderAP()
   },
   watch: {
     chartData: function () {
-      console.log('hoge')
+      console.log('ChartArea.vue watch')
       this.renderAP()
     },
     deep: true
@@ -60,6 +60,7 @@ export default {
           .attr('width', width + margin.left + margin.right)
           .attr('height', height + margin.top + margin.bottom)
 
+        // クリア（<g> と <path> の全削除）
         svg.selectAll('g')
           .remove()
         svg.selectAll('path')
@@ -84,7 +85,10 @@ export default {
 
             // Scale (X Axis)
             let xScale = d3.scaleTime()
-              .domain([d3.min(dataset.map(function (d) { return d.label })), d3.max(dataset.map(function (d) { return d.label }))])
+              .domain([
+                d3.min(dataset.map(function (d) { return d.label })),
+                d3.max(dataset.map(function (d) { return d.label }))
+              ])
               .range([0, width])
 
             // Scale (Y Axis)

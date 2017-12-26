@@ -5,7 +5,6 @@ export default function isJson (source) {
     invalid = true
   }
   catch (e) {
-    console.log('invalid JSON')
   }
   return invalid
 }

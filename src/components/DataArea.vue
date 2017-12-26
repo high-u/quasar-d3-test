@@ -9,7 +9,7 @@
         <q-input
           v-model="area"
           type="textarea"
-          float-label="Chart JSON"
+          float-label=""
           :min-rows="16"
           placeholder=""
           color="grey-4"
@@ -64,11 +64,11 @@ export default {
     insertJson () {
       console.log('DataArea methods insertJson')
       let v = JSON.stringify([
-        {label: '2014-01-01', count: 10},
-        {label: '2014-02-01', count: 20},
-        {label: '2014-03-01', count: 40},
-        {label: '2014-04-01', count: 80}
-      ])
+        {label: '2017-01-01', count: 10},
+        {label: '2017-02-01', count: 20},
+        {label: '2017-03-01', count: 40},
+        {label: '2017-04-01', count: 80}
+      ], undefined, 2)
       this.$store.commit(CHANGE_CHART_DATA, v)
     }
   }
