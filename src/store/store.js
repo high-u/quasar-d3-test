@@ -6,6 +6,7 @@ import * as types from './mutation-types'
  * 状態
  * アプリケーション全体の情報を管理する場所
  * 見た目の構築やサーバとの通信などに利用します。
+ * ステート https://vuex.vuejs.org/ja/state.html
  */
 const state = {
   chartData: '[]'
@@ -15,6 +16,7 @@ const state = {
  * Actions
  * ユーザの操作/APIとのやりとり
  * アプリケーションの状態を変更するようなユーザからの入力や外部APIの呼び出しは、Actionsと呼ばれます。
+ * アクション https://vuex.vuejs.org/ja/actions.html
  */
 const actions = {
 }
@@ -22,6 +24,7 @@ const actions = {
 /*
  * Mutations
  * 状態への変更処理
+ * ミューテーション https://vuex.vuejs.org/ja/mutations.html
  */
 const mutations = {
   [types.CHANGE_CHART_DATA]: (state, str) => {
@@ -33,6 +36,7 @@ const mutations = {
 
 /*
  * Getters
+ * ゲッター https://vuex.vuejs.org/ja/getters.html
  */
 const getters = {
   getChartData: state => {

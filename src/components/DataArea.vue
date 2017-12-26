@@ -49,7 +49,7 @@ export default {
     QCardActions
   },
   computed: {
-    area: {
+    area: { // フォームの双方向算出プロパティ https://vuex.vuejs.org/ja/forms.html
       get () {
         // store の値をテキストエリアに入る？
         return this.$store.getters.getChartData
