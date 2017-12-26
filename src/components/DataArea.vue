@@ -62,7 +62,7 @@ export default {
   },
   methods: {
     insertJson () {
-      console.log('click')
+      console.log('DataArea methods insertJson')
       let v = '[' + '\n' +
         '  {"label":"2014-01-01", "count":10},' + '\n' +
         '  {"label":"2014-02-01", "count":20},' + '\n' +

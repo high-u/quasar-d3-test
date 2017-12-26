@@ -1,8 +1,6 @@
-/* Mutation Type を読み込む */
+// Mutation Type を読み込む
 import { CHANGE_CHART_DATA } from './types'
 import Ajv from 'ajv'
-import isJson from '../utils'
-import { SCHEMA_CHART } from '../schema'
 
 /*
  * State
@@ -17,7 +15,6 @@ const state = {
     { id: 1, title: 'データ2', body: 'データ2の内容です。456' },
     { id: 2, title: 'データ3', body: 'データ3の内容です。789' }
   ],
-  /* chart default value */
   chartData: '[]'
 }
 
@@ -28,8 +25,8 @@ const state = {
  */
 const actions = {
   [CHANGE_CHART_DATA] ({ commit }, str) { // DataArea.vue の @change より
-    console.log('store.actions2:[CHANGE_CHART_DATA] str= ', str)
-    var schema = {
+    console.log('store.js actions: [CHANGE_CHART_DATA] str= ', str)
+    let schema = {
       type: 'array',
       items: {
         type: 'object',
@@ -45,11 +42,10 @@ const actions = {
         }
       }
     }
-    var ajv = new Ajv()
-    var validate = ajv.compile(schema)
-    var valid = validate(JSON.parse(str))
+    let ajv = new Ajv()
+    let validate = ajv.compile(schema)
+    let valid = validate(JSON.parse(str))
     if (!valid) {
-      console.log('hogehogehoge')
       console.log(validate.errors)
     }
     else {
@@ -68,7 +64,7 @@ const mutations = {
   [CHANGE_CHART_DATA] (state, str) {
     // State を変更
     state.chartData = str
-    console.log('mutation2 commit: [CHANGE_CHART_DATA] state.searchStr= ', str)
+    console.log('store.js mutations: [CHANGE_CHART_DATA] str = ', str)
   }
 }
 
@@ -85,28 +81,7 @@ const getters = {
     })
   },
   getChartData: state => {
-    var ret = ''
-    console.log('store.js getChartData ==========>')
-    console.log(state.chartData)
-    var v = state.chartData
-    if (!isJson(v)) {
-      console.log('Invalid JSON. DataArea set.')
-    }
-    else {
-      var schema = SCHEMA_CHART
-      var ajv = new Ajv()
-      var validate = ajv.compile(schema)
-      var valid = validate(JSON.parse(v))
-      if (!valid) {
-        console.log('invalid')
-        console.log(validate.errors)
-        ret = '{}'
-      }
-      else {
-        ret = state.chartData
-      }
-    }
-    console.log(ret)
+    console.log('store.js getters getChartData')
     return state.chartData
   }
 }

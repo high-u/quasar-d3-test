@@ -10,7 +10,6 @@
         </svg>
       </q-card-main>
     </q-card>
-
   </div>
 </template>
 
@@ -38,7 +37,7 @@ export default {
     })
   },
   mounted () {
-    console.log('mounted ------------->')
+    console.log('mounted')
     this.renderAP()
   },
   watch: {
@@ -47,22 +46,18 @@ export default {
       this.renderAP()
     },
     deep: true
-    /* next tick */
   },
   methods: {
     renderAP () {
-      /* data by getter */
-      console.log('------>')
-
       if (!isJson(this.chartData)) {
-        console.log('Invalid JSON. DataArea set.')
+        console.log('Invalid JSON.')
       }
       else {
-        var margin = { top: 30, right: 40, bottom: 30, left: 40 }
-        var width = 760 - margin.left - margin.right
-        var height = 400 - margin.top - margin.bottom
-        var svg = d3.select('svg#chart')
-          .attr('width', width + margin.left + margin.right) // set its dimentions
+        let margin = { top: 30, right: 40, bottom: 30, left: 40 }
+        let width = 760 - margin.left - margin.right
+        let height = 400 - margin.top - margin.bottom
+        let svg = d3.select('svg#chart')
+          .attr('width', width + margin.left + margin.right)
           .attr('height', height + margin.top + margin.bottom)
 
         svg.selectAll('g')
@@ -70,56 +65,55 @@ export default {
         svg.selectAll('path')
           .remove()
 
-        var schema = SCHEMA_CHART
-        var ajv = new Ajv()
-        var validate = ajv.compile(schema)
-        var valid = validate(JSON.parse(this.chartData))
+        let schema = SCHEMA_CHART
+        let ajv = new Ajv()
+        let validate = ajv.compile(schema)
+        let valid = validate(JSON.parse(this.chartData))
         if (!valid) {
-          console.log('invalid')
+          console.log('Invalid Chart JSON.')
           console.log(validate.errors)
         }
-        else {
-          console.log(Object.keys(this.chartData).length)
+        else { // Valid Chart JSON
           if (Object.keys(this.chartData).length !== 0) {
-            var dataset = JSON.parse(this.chartData)
+            let dataset = JSON.parse(this.chartData)
 
-            var timeparser = d3.timeParse('%Y-%m-%d')
+            let timeparser = d3.timeParse('%Y-%m-%d')
             dataset = dataset.map(function (d) {
               return { label: timeparser(d.label), count: d.count }
             })
 
-            var xScale = d3.scaleTime()
+            // Scale (X Axis)
+            let xScale = d3.scaleTime()
               .domain([d3.min(dataset.map(function (d) { return d.label })), d3.max(dataset.map(function (d) { return d.label }))])
               .range([0, width])
 
-            var yScale = d3.scaleLinear()
+            // Scale (Y Axis)
+            let yScale = d3.scaleLinear()
               .domain([0, d3.max(dataset, function (d) { return d.count })])
-              .range([height, 0]) // Seems backwards because SVG is y-down
+              .range([height, 0])
 
-            /* x is the d3.scaleTime() */
-            var xAxis = d3.axisBottom(xScale)
+            // Axis Position and Format
+            let xAxis = d3.axisBottom(xScale)
               .tickFormat(d3.timeFormat('%m/%d'))
-            /* .ticks(4) // specify the number of ticks */
-            var yAxis = d3.axisLeft(yScale)
-            /* .tickFormat(d3.format('$,d')) */
-            /* .ticks(5) */
+            let yAxis = d3.axisLeft(yScale)
 
-            var line = d3.line()
+            // line(dataset) --> M0,297.5L234.22222222222223,255L445.77777777777777,170L680,0
+            let line = d3.line()
               .x(function (d) { return xScale(d.label) })
               .y(function (d) { return yScale(d.count) })
               .curve(d3.curveLinear)
 
-            /* X axis */
+            // X Axis
             svg.append('g') // create a <g> element
               .attr('transform', 'translate(' + margin.right + ',' + (height + margin.top) + ')')
               .call(xAxis) // let the axis do its thing
 
-            /* Y axis */
+            // Y Axis
             svg.append('g')
               .attr('transform', 'translate(' + margin.right + ',' + margin.top + ')')
               .call(yAxis)
 
-            /* Path */
+            // Path
             svg.append('path')
               .attr('transform', 'translate(' + margin.right + ', ' + margin.top + ')')
               .datum(dataset)

@@ -1,12 +1,10 @@
 <template>
-  <!-- if you want automatic padding use "layout-padding" class -->
   <div>
     <q-toolbar slot="header" color="primary">
       <q-toolbar-title>
         Quasar Framework Test with d3.js
       </q-toolbar-title>
     </q-toolbar>
-    <!-- your content -->
     <data-area class="float-left"></data-area>
     <chart-area class="float-left"></chart-area>
   </div>
