@@ -1,5 +1,5 @@
 // Mutation Type を読み込む
-import { CHANGE_CHART_DATA } from './types'
+import * as types from './mutation-types'
 
 /*
  * State
@@ -24,10 +24,10 @@ const actions = {
  * 状態への変更処理
  */
 const mutations = {
-  [CHANGE_CHART_DATA]: (state, str) => {
+  [types.CHANGE_CHART_DATA]: (state, str) => {
     // State を変更
     state.chartData = str
-    console.log('store.js mutations: [CHANGE_CHART_DATA] str = ', str)
+    console.log('store.js mutations: [types.CHANGE_CHART_DATA] str = ', str)
   }
 }
 
@@ -35,7 +35,7 @@ const mutations = {
  * Getters
  */
 const getters = {
-  [CHANGE_CHART_DATA]: state => {
+  getChartData: state => {
     console.log('store.js getters getChartData')
     return state.chartData
   }

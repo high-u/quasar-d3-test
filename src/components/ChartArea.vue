@@ -18,7 +18,7 @@ import * as d3 from 'd3'
 import { mapGetters } from 'vuex'
 import Ajv from 'ajv'
 import isJson from '../utils'
-import { SCHEMA_CHART } from '../schema'
+import * as schemas from '../schema'
 import {
   QCard, QCardTitle, QCardSeparator, QCardMain, QCardActions
 } from 'quasar'
@@ -33,7 +33,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      chartData: 'CHANGE_CHART_DATA'
+      chartData: 'getChartData'
     })
   },
   mounted () {
@@ -66,7 +66,7 @@ export default {
         svg.selectAll('path')
           .remove()
 
-        let schema = SCHEMA_CHART
+        let schema = schemas.SCHEMA_CHART
         let ajv = new Ajv()
         let validate = ajv.compile(schema)
         let valid = validate(JSON.parse(this.chartData))

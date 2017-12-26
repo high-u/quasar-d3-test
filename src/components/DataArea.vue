@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { CHANGE_CHART_DATA } from '../store/types'
+import * as types from '../store/mutation-types'
 import {
   QInput,
   QBtn, QIcon,
@@ -52,11 +52,11 @@ export default {
     area: {
       get () {
         // store の値をテキストエリアに入る？
-        return this.$store.getters.CHANGE_CHART_DATA
+        return this.$store.getters.getChartData
       },
       set (v) {
         // store にコミットする
-        this.$store.commit(CHANGE_CHART_DATA, v)
+        this.$store.commit(types.CHANGE_CHART_DATA, v)
       }
     }
   },
@@ -69,7 +69,7 @@ export default {
         {label: '2017-03-01', count: 40},
         {label: '2017-04-01', count: 80}
       ], undefined, 2)
-      this.$store.commit(CHANGE_CHART_DATA, v)
+      this.$store.commit(types.CHANGE_CHART_DATA, v)
     }
   }
 }
