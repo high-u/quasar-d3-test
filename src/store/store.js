@@ -24,7 +24,7 @@ const actions = {
  * 状態への変更処理
  */
 const mutations = {
-  [CHANGE_CHART_DATA] (state, str) {
+  [CHANGE_CHART_DATA]: (state, str) => {
     // State を変更
     state.chartData = str
     console.log('store.js mutations: [CHANGE_CHART_DATA] str = ', str)
@@ -35,7 +35,7 @@ const mutations = {
  * Getters
  */
 const getters = {
-  getChartData: state => {
+  [CHANGE_CHART_DATA]: state => {
     console.log('store.js getters getChartData')
     return state.chartData
   }

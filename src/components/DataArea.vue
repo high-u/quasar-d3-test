@@ -52,7 +52,7 @@ export default {
     area: {
       get () {
         // store の値をテキストエリアに入る？
-        return this.$store.getters.getChartData
+        return this.$store.getters.CHANGE_CHART_DATA
       },
       set (v) {
         // store にコミットする

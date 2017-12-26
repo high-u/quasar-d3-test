@@ -33,7 +33,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      chartData: 'getChartData'
+      chartData: 'CHANGE_CHART_DATA'
     })
   },
   mounted () {
