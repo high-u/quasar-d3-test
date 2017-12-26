@@ -51,11 +51,11 @@ export default {
   computed: {
     area: {
       get () {
-        // テキストエリアに入れる？
-        // return JSON.stringify(this.$store.getters.getChartData)
+        // store の値をテキストエリアに入る？
         return this.$store.getters.getChartData
       },
       set (v) {
+        // store にコミットする
         this.$store.commit(CHANGE_CHART_DATA, v)
       }
     }
@@ -63,12 +63,12 @@ export default {
   methods: {
     insertJson () {
       console.log('DataArea methods insertJson')
-      let v = '[' + '\n' +
-        '  {"label":"2014-01-01", "count":10},' + '\n' +
-        '  {"label":"2014-02-01", "count":20},' + '\n' +
-        '  {"label":"2014-03-01", "count":40},' + '\n' +
-        '  {"label":"2014-04-01", "count":80}' + '\n' +
-        ']'
+      let v = JSON.stringify([
+        {label: '2014-01-01', count: 10},
+        {label: '2014-02-01', count: 20},
+        {label: '2014-03-01', count: 40},
+        {label: '2014-04-01', count: 80}
+      ])
       this.$store.commit(CHANGE_CHART_DATA, v)
     }
   }

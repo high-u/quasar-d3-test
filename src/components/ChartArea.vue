@@ -97,11 +97,11 @@ export default {
               .tickFormat(d3.timeFormat('%m/%d'))
             let yAxis = d3.axisLeft(yScale)
 
-            // line(dataset) --> M0,297.5L234.22222222222223,255L445.77777777777777,170L680,0
             let line = d3.line()
               .x(function (d) { return xScale(d.label) })
               .y(function (d) { return yScale(d.count) })
               .curve(d3.curveLinear)
+            // line(dataset) --> M0,297.5L234.22222222222223,255L445.77777777777777,170L680,0
 
             // X Axis
             svg.append('g') // create a <g> element
