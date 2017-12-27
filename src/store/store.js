@@ -19,6 +19,10 @@ const state = {
  * アクション https://vuex.vuejs.org/ja/actions.html
  */
 const actions = {
+  [types.CHANGE_CHART_DATA] ({ commit }, v) {
+    console.log('store.js actions [types.CHANGE_CHART_DATA]', v)
+    commit(types.CHANGE_CHART_DATA, v)
+  }
 }
 
 /*
@@ -27,7 +31,7 @@ const actions = {
  * ミューテーション https://vuex.vuejs.org/ja/mutations.html
  */
 const mutations = {
-  [types.CHANGE_CHART_DATA]: (state, str) => {
+  [types.CHANGE_CHART_DATA] (state, str) {
     // State を変更
     state.chartData = str
     console.log('store.js mutations: [types.CHANGE_CHART_DATA] str = ', str)
@@ -39,7 +43,7 @@ const mutations = {
  * ゲッター https://vuex.vuejs.org/ja/getters.html
  */
 const getters = {
-  getChartData: state => {
+  getChartData (state) {
     console.log('store.js getters getChartData')
     return state.chartData
   }

@@ -51,12 +51,12 @@ export default {
   computed: {
     area: { // フォームの双方向算出プロパティ https://vuex.vuejs.org/ja/forms.html
       get () {
-        // store の値をテキストエリアに入る？
+        // store の値をテキストエリアに入れる
         return this.$store.getters.getChartData
       },
       set (v) {
-        // store にコミットする
-        this.$store.commit(types.CHANGE_CHART_DATA, v)
+        // store にディスパッチする
+        this.$store.dispatch(types.CHANGE_CHART_DATA, v)
       }
     }
   },
